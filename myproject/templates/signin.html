@@ -14,7 +14,7 @@
     
 
     <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="{% static 'styles/bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
     <!-- Favicons -->
 
@@ -43,13 +43,13 @@
 
     
     <!-- Custom styles for this template -->
-    <link href="{% static 'styles/signin.css' %}" rel="stylesheet">
+    <link href="{% static 'css/signin.css' %}" rel="stylesheet">
   </head>
   <body class="text-center">
     
 <main class="form-signin">
   <form action="/signin/" method="POST">
-    <img class="mb-4" src="{% static 'styles/giftitforward.png' %}" width=100%>
+    <img class="mb-4" src="{% static 'img/giftitforward.png' %}" width=100%>
     {% csrf_token %}
     {{ form }}
     <div class="checkbox mb-3">
