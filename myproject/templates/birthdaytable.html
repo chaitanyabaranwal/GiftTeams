@@ -10,10 +10,10 @@
     <title>Grid Template for Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'styles/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static 'styles/grid.css' %}" rel="stylesheet">
+    <link href="{% static 'css/grid.css' %}" rel="stylesheet">
   </head>
 
   <style>
@@ -50,18 +50,71 @@
    height: 2em;
  }
 
+h2 {
+  display: inline;
+  vertical-align: middle;
+}
+
+body {
+  padding-top: 0;
+}
+
+.giftimg {
+  height: 2em;
+  margin-left: 2em;
+}
+
+.container {
+  padding-top: 2em;
+}
 
   </style>
 
   <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light rounded">
+      <a class="navbar-brand" href="#"><img src="{% static 'img/giftitforward.png' %}" class="giftimg"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample09" aria-controls="navbarsExample09" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarsExample09">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Logout</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Disabled</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+            <div class="dropdown-menu" aria-labelledby="dropdown09">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-md-0">
+          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </nav>
+
+
     <div class="container">
 
       <h1>Welcome back, <span>Janice!</span></h1>
-      <p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
+      <p class="lead">Here are the upcoming birthdays: </p>
 
       <div class="d-flex justify-content-between bd-highlight mb-3">
-        <div class="p-2 bd-highlight"><h2>Birthdays</h2></div>
-        <div class="p-2 bd-highlight"><button type="button" class="btn btn-warning float-right"><img src="{% static 'excel.png' %}" class="excel"><span><strong>Upload Excel File</strong></span></button></div>
+        <div class="p-2 bd-highlight">
+          <img src="{% static 'img/cake.png' %}" class="excel">
+          <h2>Birthdays</h2>
+        </div>
+        <div class="p-2 bd-highlight"><button type="button" class="btn btn-warning float-right"><img src="{% static 'img/excel.png' %}" class="excel"><span><strong> Upload Excel File</strong></span></button></div>
       </div>
 
       <table class="table table-striped">
