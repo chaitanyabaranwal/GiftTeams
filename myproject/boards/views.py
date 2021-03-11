@@ -7,3 +7,6 @@ def home(request):
 
 def signup(request):
     return render(request, 'signup.html')
+
+def birthdaytable(request):
+    return render(request, 'birthdaytable.html')
