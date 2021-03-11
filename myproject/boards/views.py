@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render
 
 from .forms import SignUpForm
+from .models import HRPerson
 
 # Create your views here.
 def home(request):
@@ -18,6 +19,8 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
+            person = HRPerson(user=user)
+            person.save()
             return HttpResponseRedirect('/home/')
     # If user visits the page
     else:

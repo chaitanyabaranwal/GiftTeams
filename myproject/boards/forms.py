@@ -8,12 +8,12 @@ class SignUpForm(UserCreationForm):
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'mb-3 form-control', 'placeholder': 'Username'})
     )
-    firstname = forms.CharField(
+    first_name = forms.CharField(
         label='',
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'mb-3 form-control', 'placeholder': 'First Name'})
     )
-    lastname = forms.CharField(
+    last_name = forms.CharField(
         label='',
         max_length=100,
         widget=forms.TextInput(attrs={'class': 'mb-3 form-control', 'placeholder': 'Last Name'})
