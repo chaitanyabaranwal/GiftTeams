@@ -48,16 +48,13 @@
   <body class="text-center">
     
 <main class="form-signin">
-  
-  <form>
+  <form action='/signup/' method='POST'>
     <img class="mb-2" src="{% static 'styles/giftitforward.png' %}" width=100%>
     <div class="mb-6">
       <h2>Sign Up</h2>
     </div>
-    <input type="text" id="firstName" class="mb-3 form-control" placeholder="First Name" required="" autofocus="">
-    <input type="text" id="lastName" class="mb-3 form-control" placeholder="Last Name" required="" autofocus="">
-    <input type="email" id="inputEmail" class="mb-3 form-control" placeholder="Email address" required="" autofocus="">
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+    {% csrf_token %}
+    {{ form }}
     <button class="w-100 btn btn-lg btn-primary" type="submit">Create Account</button>
   </form>
 </main>
