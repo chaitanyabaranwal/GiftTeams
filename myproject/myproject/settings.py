@@ -101,7 +101,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Redirects for login and logout
+
 LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Internationalization

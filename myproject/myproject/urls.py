@@ -23,6 +23,7 @@ from boards.forms import SignInForm
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', views.signup, name='signup'),
-    path('signin/', auth_views.LoginView.as_view(template_name='signin/signin.html', authentication_form=SignInForm), name='signin'),
+    path('', auth_views.LoginView.as_view(template_name='signin/signin.html', authentication_form=SignInForm), name='signin'),
+    path('signout/', auth_views.LogoutView.as_view(), name='signout'),
     path('home/', views.home, name='home')
 ]
