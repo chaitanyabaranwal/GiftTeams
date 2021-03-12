@@ -1,7 +1,9 @@
 {% load static %}
 <!DOCTYPE html>
 <!-- saved from url=(0051)https://getbootstrap.com/docs/5.0/examples/sign-in/ -->
-<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
@@ -14,10 +16,9 @@
     
 
     <!-- Bootstrap core CSS -->
-<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
     <!-- Favicons -->
-
     <link rel="icon" href="https://www.gift-it-forward.com/favicon.ico">
 
     <style>
@@ -45,26 +46,10 @@
     <!-- Custom styles for this template -->
     <link href="{% static 'css/signin.css' %}" rel="stylesheet">
   </head>
+
   <body class="text-center">
-    
-<main class="form-signin">
-  <form action="/signin/" method="POST">
-    <img class="mb-4" src="{% static 'img/giftitforward.png' %}" width=100%>
-    {% csrf_token %}
-    {{ form }}
-    <div class="checkbox mb-3">
-      <label>
-        <input type="checkbox" value="remember-me"> Remember me
-      </label>
-    </div>
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-    <p class="mt-5 mb-3 text-muted">Don't have an account with us?</p>
-    <p class="text-muted">Click <a href="{% url 'signup' %}">here</a> to sign up</p>
-  </form>
-</main>
+    {% block content %}
+    {% endblock %}
+  </body>
 
-
-    
-  
-
-</body></html>
+</html>

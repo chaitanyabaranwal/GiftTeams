@@ -7,7 +7,7 @@ from .models import HRPerson
 
 # Create your views here.
 def home(request):
-    return HttpResponse('Hello, world!')
+    return render(request, 'birthdaytable.html')
 
 # View for user signin
 def signin(request):
@@ -24,7 +24,7 @@ def signin(request):
     # If user visits the page
     else:
         form = SignInForm()
-    return render(request, 'signin.html', {'form': form})
+    return render(request, 'signin/signin.html', {'form': form})
 
 # View for user signup
 def signup(request):
@@ -32,14 +32,10 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            person = HRPerson(user=form.save())
-            person.save()
+            person = HRPerson.objects.create(user=form.save())
             login(request, person.user)
             return redirect('home')
     # If user visits the page
     else:
         form = SignUpForm()
-    return render(request, 'signup.html', {'form': form})
-
-def birthdaytable(request):
-    return render(request, 'birthdaytable.html')
+    return render(request, 'signin/signup.html', {'form': form})

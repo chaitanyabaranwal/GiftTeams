@@ -1,0 +1,15 @@
+{% extends 'signin/base.html' %}
+{% load static %}
+{% block content %}
+<main class="form-signin">
+  <form action="{% url 'signup' %}" method='POST'>
+    <img class="mb-2" src="{% static 'img/giftitforward.png' %}" width=100%>
+    <div class="mb-6">
+      <h2>Sign Up</h2>
+    </div>
+    {% csrf_token %}
+    {{ form }}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Create Account</button>
+  </form>
+</main>
+{% endblock %}
