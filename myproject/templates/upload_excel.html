@@ -75,7 +75,7 @@
     <br>
     <h5>Step 2. Select and upload the Excel File</h5>
     <main>
-      <form method="POST" action="{% url 'upload_excel' %}">
+      <form enctype="multipart/form-data" method="POST" action="{% url 'upload_excel' %}">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit file">
