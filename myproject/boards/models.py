@@ -14,6 +14,7 @@ class Person(models.Model):
     birthday = models.DateField()
     email = models.EmailField(default='admin@admin.com')
     phone = models.IntegerField(default=12345678)
+    is_support_person = models.BooleanField(default=False)
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
 
     def __eq__(self, other):
