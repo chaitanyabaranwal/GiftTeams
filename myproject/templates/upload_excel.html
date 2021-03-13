@@ -47,7 +47,7 @@
     {% include 'includes/nav.html' %}
     {% block content %}
     <main>
-      <form method="POST" action="{% url 'upload_excel' %}">
+      <form enctype="multipart/form-data" method="POST" action="{% url 'upload_excel' %}">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Submit file">

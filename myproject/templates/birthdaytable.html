@@ -114,29 +114,14 @@ body {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Cleaner</td>
-            <td>15th May 1958</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Sales</td>
-            <td>17th May 1987</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>IT</td>
-            <td>5th June 1990</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Barry</td>
-            <td>Sales</td>
-            <td>15th September 1991</td>
+          {% for index, person in enumerate(persons, 1) %}
+            <tr>
+              <th scope="row">{{ index }}</th>
+              <td>{{ person.name }}</td>
+              <td>{{ person.team.name }}</td>
+              <td>{{ person.birthday }}</td>
+            </tr>
+          {% endfor %}
           </tr>
         </tbody>
       </table>

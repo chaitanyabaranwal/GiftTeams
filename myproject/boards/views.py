@@ -3,11 +3,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
 
 from .forms import SignUpForm, SignInForm, UploadExcelForm
-from .models import HRPerson
+from .models import HRPerson, Person
 
 # Create your views here.
 def home(request):
-    return render(request, 'birthdaytable.html')
+    persons = Person.objects.get_all()
+    return render(request, 'birthdaytable.html', {'persons': persons})
 
 # View for user signup
 def signup(request):
