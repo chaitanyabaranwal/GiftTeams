@@ -22,6 +22,9 @@
     <link rel="icon" href="https://www.gift-it-forward.com/favicon.ico">
 
     <style>
+    body {
+    font-size: 12px;
+  }
       .bd-placeholder-img {
         font-size: 1.125rem;
         text-anchor: middle;
@@ -51,8 +54,8 @@
 
       .sample_excel {
         box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.4);
-        width: 24em;
-        height: 6em;
+        width: 32em;
+        height: 8em;
       }
     </style>
   </head>
@@ -60,16 +63,17 @@
   <body>
     {% include 'includes/nav.html' %}
   <div class='container'>
-    <h3>Upload Excel File</h3>
-    <h4>Step 1. Setting up the Excel File</h4>
+    <h4>Upload Excel File</h4>
+    <h5>Step 1. Setting up the Excel File</h5>
     <p class="lead">Create an Excel file (.xls) with the following headers and enter the employee information.</p>
     <img src="{% static 'img/sample_excel.png' %}" class="sample_excel">
     <br>
     <br>
-    <p><strong>Important:</strong> Input birthdays in a DD/MM/YYYY format.</p>
+    <p class="lead"><strong>Instructions:</strong></p> 
+    <p class="lead">1. Input birthdays in a DD/MM/YYYY format.</p>
+    <p class="lead">2. Categorise beneficiaries as <mark>Support</mark></p>
     <br>
-    <h4>Step 2. Select and upload the Excel File</h4>
-    <p class="lead">Choose your Excel file and upload it for processing.</p>
+    <h5>Step 2. Select and upload the Excel File</h5>
     <main>
       <form method="POST" action="{% url 'upload_excel' %}">
         {% csrf_token %}
