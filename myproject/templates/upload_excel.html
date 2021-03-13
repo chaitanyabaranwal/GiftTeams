@@ -40,12 +40,36 @@
         background-color: #74D8D0
       }
 
+      .giftimg {
+        height: 2em;
+        margin-left: 2em;
+      }
+
+      .container {
+        padding-top: 2em;
+      }
+
+      .sample_excel {
+        box-shadow: 0px 0px 12px 1px rgba(0, 0, 0, 0.4);
+        width: 24em;
+        height: 6em;
+      }
     </style>
   </head>
 
-  <body class="text-center">
+  <body>
     {% include 'includes/nav.html' %}
-    {% block content %}
+  <div class='container'>
+    <h3>Upload Excel File</h3>
+    <h4>Step 1. Setting up the Excel File</h4>
+    <p class="lead">Create an Excel file (.xls) with the following headers and enter the employee information.</p>
+    <img src="{% static 'img/sample_excel.png' %}" class="sample_excel">
+    <br>
+    <br>
+    <p><strong>Important:</strong> Input birthdays in a DD/MM/YYYY format.</p>
+    <br>
+    <h4>Step 2. Select and upload the Excel File</h4>
+    <p class="lead">Choose your Excel file and upload it for processing.</p>
     <main>
       <form method="POST" action="{% url 'upload_excel' %}">
         {% csrf_token %}
@@ -53,7 +77,7 @@
         <input type="submit" value="Submit file">
       </form>
     </main>
-    {% endblock %}
+  </div>
   </body>
 
 </html>
