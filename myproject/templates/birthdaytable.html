@@ -90,7 +90,11 @@ body {
           <img src="{% static 'img/cake.png' %}" class="excel">
           <h2>Birthdays</h2>
         </div>
-        <div class="p-2 bd-highlight"><button type="button" class="btn btn-warning float-right"><img src="{% static 'img/excel.png' %}" class="excel"><span><strong> Upload Excel File</strong></span></button></div>
+        <div class="p-2 bd-highlight">
+          <a href="{% url 'upload_excel' %}">
+            <button id="upload-excel" type="button" class="btn btn-warning float-right"><img src="{% static 'img/excel.png' %}" class="excel"><span><strong> Upload Excel File</strong></span></button>
+          </a>
+        </div>
       </div>
 
       <div class="d-flex flex-row-reverse bd-highlight mb-2">

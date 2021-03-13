@@ -44,3 +44,6 @@ class SignInForm(AuthenticationForm):
         label='',
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Password'})
     )
+
+class UploadExcelForm(forms.Form):
+    file = forms.FileField()

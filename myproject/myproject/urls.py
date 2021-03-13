@@ -25,5 +25,6 @@ urlpatterns = [
     path('signup/', views.signup, name='signup'),
     path('', auth_views.LoginView.as_view(template_name='signin/signin.html', authentication_form=SignInForm), name='signin'),
     path('signout/', auth_views.LogoutView.as_view(), name='signout'),
-    path('home/', views.home, name='home')
+    path('home/', views.home, name='home'),
+    path('upload_excel/', views.upload_excel, name='upload_excel')
 ]
