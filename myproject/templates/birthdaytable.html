@@ -17,6 +17,9 @@
   </head>
 
   <style>
+  body {
+    font-size: 12px;
+  }
     .col {
       background-color: white;
     }
@@ -50,7 +53,7 @@
    height: 2em;
  }
 
-h2 {
+h3 {
   display: inline;
   vertical-align: middle;
 }
@@ -82,15 +85,15 @@ body {
     {% include 'includes/nav.html' %}
     <div class="container">
 
-      <h1>Welcome back, <span>Janice!</span></h1>
+      <h2>Welcome back, <span>Janice!</span></h2>
       <p class="lead">Here are the upcoming birthdays: </p>
 
       <div class="d-flex justify-content-between bd-highlight mb-3">
-        <div class="p-2 bd-highlight">
+        <div class="bd-highlight">
           <img src="{% static 'img/cake.png' %}" class="excel">
-          <h2>Birthdays</h2>
+          <h3>Birthdays</h3>
         </div>
-        <div class="p-2 bd-highlight">
+        <div class="bd-highlight">
           <a href="{% url 'upload_excel' %}">
             <button id="upload-excel" type="button" class="btn btn-warning float-right"><img src="{% static 'img/excel.png' %}" class="excel"><span><strong> Upload Excel File</strong></span></button>
           </a>
