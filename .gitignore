@@ -2,3 +2,4 @@ venv/
 myproject/boards/__pycache__/
 myproject/myproject/__pycache__/
 myproject/boards/migrations/__pycache__/
+db.sqlite3
