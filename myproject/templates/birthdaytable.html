@@ -117,9 +117,9 @@ body {
           </tr>
         </thead>
         <tbody>
-          {% for index, person in enumerate(persons, 1) %}
+          {% for person in persons %}
             <tr>
-              <th scope="row">{{ index }}</th>
+              <th scope="row">{{ forloop.counter }}</th>
               <td>{{ person.name }}</td>
               <td>{{ person.team.name }}</td>
               <td>{{ person.birthday }}</td>
