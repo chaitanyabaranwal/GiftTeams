@@ -1,17 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-<h2>Welcome back, <span>Janice!</span></h2>
-<p class="lead">Here are the upcoming birthdays: </p>
 
+{% block content %}
 <div class="d-flex justify-content-between bd-highlight mb-3">
   <div class="bd-highlight">
-    <img src="{% static 'img/cake.png' %}" class="excel">
-    <h3>Birthdays</h3>
+    <h3>Teams</h3>
   </div>
   <div class="bd-highlight">
-    <a href="{% url 'upload_excel' %}">
-      <button id="upload-excel" type="button" class="btn btn-warning float-right"><img src="{% static 'img/excel.png' %}" class="excel"><span><strong> Upload Excel File</strong></span></button>
+    <a href="">
+      <button id="upload-excel" type="button" class="btn btn-warning float-right"><span><strong>Add Team</strong></span></button>
     </a>
   </div>
 </div>
@@ -28,17 +25,15 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
-      <th scope="col">Team</th>
-      <th scope="col">Birthday</th>
+      <th scope="col">Team members</th>
     </tr>
   </thead>
   <tbody>
-    {% for event in events %}
+    {% for team in teams %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td>{{ event.person.name }}</td>
-        <td>{{ event.person.team.name }}</td>
-        <td>{{ event.person.birthday }}</td>
+        <td><a href="{% url 'view_team' team.id %}">{{ team.name }}</a></td>
+        <td>{{ team.person_set.count }}</td>
       </tr>
     {% endfor %}
     </tr>

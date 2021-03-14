@@ -16,7 +16,7 @@ class Person(models.Model):
     phone = models.IntegerField(default=12345678)
     is_support_person = models.BooleanField(default=False)
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
+
 class BirthdayEvent(models.Model):
     person = models.OneToOneField(to=Person, on_delete=models.PROTECT)
-    date = models.DateField()
     event_link = models.CharField(max_length=1000)

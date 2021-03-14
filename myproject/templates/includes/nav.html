@@ -8,13 +8,16 @@
   <div class="navbar-expand" id="navbarsExample09">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="{% url 'home' %}">Home</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'signout' %}">Logout</a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="#">Disabled</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'teams' %}">Teams</a>
       </li>
       <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
