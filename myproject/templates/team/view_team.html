@@ -4,11 +4,11 @@
 {% block content %}
 <div class="d-flex justify-content-between bd-highlight mb-3">
   <div class="bd-highlight">
-    <h3>Teams</h3>
+    <h3>{{ team.name }}</h3>
   </div>
   <div class="bd-highlight">
-    <a href="">
-      <button id="upload-excel" type="button" class="btn btn-warning float-right"><span><strong>Add Team</strong></span></button>
+    <a href="{% url 'create_person' %}">
+      <button id="upload-excel" type="button" class="btn btn-warning float-right"><span><strong>Add Person</strong></span></button>
     </a>
   </div>
 </div>
@@ -25,15 +25,25 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">Name</th>
-      <th scope="col">Team members</th>
+      <th scope="col">Email</th>
+      <th scope="col">Phone</th>
+      <th scope="col">Birthday</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    {% for team in teams %}
+    {% for person in persons %}
       <tr>
         <th scope="row">{{ forloop.counter }}</th>
-        <td><a href="{% url 'view_team' team.id %}">{{ team.name }}</a></td>
-        <td>{{ team.person_set.count }}</td>
+        <td>{{ person.name }}</td>
+        <!-- TODO: Fix display when email/phone not present -->
+        <td>{{ person.email }}</td>
+        <td>{{ person.phone }}</td>
+        <td>{{ person.birthday }}</td>
+        <td>
+          <a href="{% url 'edit_person' person.id %}">Edit</a>
+          <a href="{% url 'delete_person' person.id %}">Delete</a>
+        </td>
       </tr>
     {% endfor %}
     </tr>

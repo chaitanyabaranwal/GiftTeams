@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="form-signin">
+  <form action="" method='POST'>
+    <div class="mb-6">
+      <h2>Create New Team</h2>
+    </div>
+    {% csrf_token %}
+    {{ form }}
+    {% if form.instance.pk is None %}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Create Team</button>
+    {% else %}
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Update Team</button>
+    {% endif %}
+  </form>
+</main>
+{% endblock %}

@@ -9,6 +9,9 @@ class Team(models.Model):
     name = models.CharField(max_length=100, unique=True)
     hr_person = models.ForeignKey(to=HRPerson, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.name
+
 class Person(models.Model):
     name = models.CharField(max_length=100)
     birthday = models.DateField()
@@ -18,5 +21,5 @@ class Person(models.Model):
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
 
 class BirthdayEvent(models.Model):
-    person = models.OneToOneField(to=Person, on_delete=models.PROTECT)
+    person = models.OneToOneField(to=Person, on_delete=models.CASCADE)
     event_link = models.CharField(max_length=1000)

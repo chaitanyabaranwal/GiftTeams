@@ -1,11 +1,11 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 
 import pandas as pd
 
-from .forms import SignUpForm, SignInForm, UploadExcelForm
+from .forms import *
 from .models import *
 
 ########################################
@@ -37,7 +37,7 @@ def signup(request):
 def teams(request):
     teams = Team.objects.filter(hr_person=get_hr_person(request))
     print(teams)
-    return render(request, 'teams.html', {'teams': teams})
+    return render(request, 'team/teams.html', {'teams': teams})
 
 # View for excel upload
 @login_required
@@ -45,7 +45,6 @@ def upload_excel(request):
     if request.method == 'POST':
         form = UploadExcelForm(request.POST, request.FILES)
         if form.is_valid():
-            print('Excel file submitted!')
             handle_excel_upload(request, request.FILES['file'])
             return redirect('home')
         else:
@@ -59,7 +58,78 @@ def upload_excel(request):
 def view_team(request, team_id=None):
     team = Team.objects.get(id=team_id)
     persons = team.person_set.all()
-    return render(request, 'view_team.html', {'persons': persons, 'team': team})
+    return render(request, 'team/view_team.html', {'persons': persons, 'team': team})
+
+# View for creating a new team
+@login_required
+def create_team(request):
+    if request.method == 'POST':
+        form = TeamForm(request.POST)
+        if form.is_valid():
+            team = form.save(commit=False)
+            team.hr_person = get_hr_person(request)
+            team.save()
+            return redirect('teams')
+    else:
+        form = TeamForm()
+    return render(request, 'team/create_team.html', {'form': form})
+
+# View for editing a team
+@login_required
+def edit_team(request, team_id=None):
+    team = get_object_or_404(Team, id=team_id)
+    if request.method == 'POST':
+        form = TeamForm(request.POST, instance=team)
+        if form.is_valid():
+            form.save()
+            return redirect('teams')
+    else:
+        form = TeamForm(instance=team)
+    return render(request, 'team/create_team.html', {'form': form})
+
+# View for deleting a team
+@login_required
+def delete_team(request, team_id=None):
+    team = get_object_or_404(Team, id=team_id)
+    team.delete()
+    return redirect('teams')
+
+# View for creating a new person
+@login_required
+def create_person(request):
+    if request.method == 'POST':
+        form = PersonForm(request.POST)
+        if form.is_valid():
+            person = form.save(commit=False)
+            person.save()
+            # TODO: Update link here
+            BirthdayEvent.objects.create(person=person, event_link='https://example.com')
+            return redirect('view_team', person.team.id)
+    else:
+        form = PersonForm()
+    return render(request, 'person/create_person.html', {'form': form})
+
+# View for editing a person
+@login_required
+def edit_person(request, person_id=None):
+    person = get_object_or_404(Person, id=person_id)
+    team_id = person.team.id
+    if request.method == 'POST':
+        form = PersonForm(request.POST, instance=person)
+        if form.is_valid():
+            form.save()
+            return redirect('view_team', team_id)
+    else:
+        form = PersonForm(instance=person)
+    return render(request, 'person/create_person.html', {'form': form})
+
+# View for deleting a person
+@login_required
+def delete_person(request, person_id=None):
+    person = get_object_or_404(Person, id=person_id)
+    team_id = person.team.id
+    person.delete()
+    return redirect('view_team', team_id)
 
 ########################################
 ########### Helper functions ###########

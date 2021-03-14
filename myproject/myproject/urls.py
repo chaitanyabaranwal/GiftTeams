@@ -28,5 +28,11 @@ urlpatterns = [
     path('home/', views.home, name='home'),
     path('upload_excel/', views.upload_excel, name='upload_excel'),
     path('teams/', views.teams, name='teams'),
-    path('teams/<int:team_id>', views.view_team, name='view_team')
+    path('teams/<int:team_id>', views.view_team, name='view_team'),
+    path('teams/new', views.create_team, name='create_team'),
+    path('teams/<int:team_id>/edit', views.edit_team, name='edit_team'),
+    path('teams/<int:team_id>/delete', views.delete_team, name='delete_team'),
+    path('persons/new', views.create_person, name='create_person'),
+    path('persons/<int:person_id>/edit', views.edit_person, name='edit_person'),
+    path('persons/<int:person_id>/delete', views.delete_person, name='delete_person')
 ]
