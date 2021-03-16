@@ -4,6 +4,7 @@ from faker import Faker
 
 import random
 import pandas as pd
+from datetime import datetime
 
 fake = Faker()
 
@@ -72,7 +73,7 @@ class Command(BaseCommand):
         teams = [fake.catch_phrase() for _ in range(total_entries)]
         emails = [fake.email() for _ in range(total_entries)]
         phones = [random.randint(80000000, 90000000) for _ in range(total_entries)]
-        birthdays = [fake.date(pattern='%d/%m/%Y') for _ in range(total_entries)]
+        birthdays = [datetime.fromisoformat(fake.date()) for _ in range(total_entries)]
         df = pd.DataFrame({
             'Name': names,
             'Team': teams,
