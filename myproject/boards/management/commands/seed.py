@@ -3,6 +3,8 @@ from boards.models import *
 from faker import Faker
 
 import random
+import pandas as pd
+from datetime import datetime
 
 fake = Faker()
 
@@ -63,11 +65,24 @@ class Command(BaseCommand):
         return bd
 
     def handle(self, *args, **options):
-        teams = self.make_teams()
-        print(f"Made {len(teams)} teams.")
-        for team in teams:
-            people = self.make_people(team)
-            print(f"Team {team} has {len(people)} members.")
-            for person in people:
-                bd = self.make_birthday(person)
-                print(f"{person} has birthday on {person.birthday}.")
+        self.generate_sample_sheet()
+    
+    def generate_sample_sheet(self):
+        total_entries = 100
+        names = [fake.name() for _ in range(total_entries)]
+        teams = [fake.catch_phrase() for _ in range(total_entries)]
+        emails = [fake.email() for _ in range(total_entries)]
+        phones = [random.randint(80000000, 90000000) for _ in range(total_entries)]
+        birthdays = [datetime.fromisoformat(fake.date()) for _ in range(total_entries)]
+        df = pd.DataFrame({
+            'Name': names,
+            'Team': teams,
+            'Email': emails,
+            'Phone': phones,
+            'Birthday': birthdays
+        })
+        writer = pd.ExcelWriter('static/media/sample_dsc.xlsx')
+        df.to_excel(writer)
+        writer.save()
+
+        print("Excel sheet generated!")

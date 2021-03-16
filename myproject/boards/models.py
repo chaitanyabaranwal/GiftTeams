@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.timezone import now
+
+from datetime import datetime
 
 # Create your models here.
 class HRPerson(models.Model):
@@ -21,5 +24,6 @@ class Person(models.Model):
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
 
 class BirthdayEvent(models.Model):
-    person = models.OneToOneField(to=Person, on_delete=models.CASCADE)
+    person = models.ForeignKey(to=Person, on_delete=models.CASCADE)
+    date = models.DateField(default=now)
     event_link = models.CharField(max_length=1000)
