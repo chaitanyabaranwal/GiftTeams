@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.decorators import login_required
 
 from boards import views
 from boards.forms import SignInForm
@@ -34,5 +35,6 @@ urlpatterns = [
     path('teams/<int:team_id>/delete', views.delete_team, name='delete_team'),
     path('persons/new', views.create_person, name='create_person'),
     path('persons/<int:person_id>/edit', views.edit_person, name='edit_person'),
-    path('persons/<int:person_id>/delete', views.delete_person, name='delete_person')
+    path('persons/<int:person_id>/delete', views.delete_person, name='delete_person'),
+    path('calendar/', login_required(views.CalendarView.as_view()), name='calendar')
 ]
