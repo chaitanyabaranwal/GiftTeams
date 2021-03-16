@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_crontab',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -154,3 +155,8 @@ EMAIL_HOST_PASSWORD='welovechai'
 EMAIL_HOST_USER='unsungheroes1@mail.com'
 EMAIL_PORT=587
 EMAIL_USE_TLS=True
+
+# Cron jobs
+CRONJOBS = [
+    ('* * * * *', 'boards.cron.print_test')
+]

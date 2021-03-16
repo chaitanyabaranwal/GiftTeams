@@ -5,13 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from django.views import generic
 
-from datetime import datetime, date, timedelta
-import pandas as pd
-import calendar
-
 from .forms import *
 from .models import *
-from .utils import Calendar
+from .utils import *
 
 ########################################
 ############ View functions ############
@@ -20,7 +16,8 @@ from .utils import Calendar
 # Home view showing all birthdays
 @login_required
 def home(request):
-    events = BirthdayEvent.objects.order_by('person__birthday')
+    hr_person = get_hr_person(request)
+    events = BirthdayEvent.objects.filter(person__team__hr_person=hr_person).order_by('person__birthday')
     return render(request, 'birthdaytable.html', {'events': events})
 
 # View for user signup
@@ -108,7 +105,7 @@ def create_person(request):
             person = form.save(commit=False)
             person.save()
             # TODO: Update link here
-            BirthdayEvent.objects.create(person=person, event_link='https://example.com')
+            # BirthdayEvent.objects.create(person=person, event_link='https://example.com')
             return redirect('view_team', person.team.id)
     else:
         form = PersonForm()
@@ -148,10 +145,13 @@ class CalendarView(generic.ListView):
         # use today's date for the calendar
         d = get_date(self.request.GET.get('day', None))
 
+        # Use this to limit viewing for the range of a year
+        today = datetime.now()
+
         # Manage handling previous and next months
         d = get_date(self.request.GET.get('month', None))
-        context['prev_month'] = prev_month(d)
-        context['next_month'] = next_month(d)
+        context['prev_month'] = prev_month(d, today)
+        context['next_month'] = next_month(d, today)
 
         # Instantiate our calendar class with today's year and date
         cal = Calendar(d.year, d.month)
@@ -161,83 +161,3 @@ class CalendarView(generic.ListView):
         context['calendar'] = mark_safe(html_cal)
 
         return context
-
-########################################
-########### Helper functions ###########
-########################################
-
-# Get HR Person associated with current user
-def get_hr_person(request):
-    return HRPerson.objects.filter(user=request.user).first()
-
-# Function to handle uploading people from excel sheet
-def handle_excel_upload(request, f):
-    # Get current user HRPeron
-    current_user = get_hr_person(request)
-    
-    df = pd.read_excel(f)
-
-    for index, row in df.iterrows():
-        # Get details
-        name = row['Name']
-        team = row['Team']
-        email = row['Email']
-        phone = row['Phone']
-        birthday = row['Birthday']
-
-        # Create team if it does not exist
-        team_existing, team_created = Team.objects.get_or_create(
-            name=team, 
-            hr_person=current_user
-        )
-        team_obj = team_existing if team_existing is not None else team_created
-
-        # Check if support staff
-        if team == 'Support':
-            person_existing, person_created = Person.objects.get_or_create(
-                name=name,
-                birthday=birthday,
-                email=email,
-                phone=phone,
-                is_support_person=True,
-                team=team_obj,
-            )
-            # TODO: Fix event link
-            BirthdayEvent.objects.get_or_create(
-                person=person_existing if person_existing is not None else person_created,
-                event_link='https://example.com/'
-            )
-        # Corporate team member
-        else:
-            person_existing, person_created = Person.objects.get_or_create(
-                name=name,
-                birthday=birthday,
-                email=email,
-                phone=phone,
-                is_support_person=False,
-                team=team_obj,
-            )
-            # TODO: Fix event link
-            BirthdayEvent.objects.get_or_create(
-                person=person_existing if person_existing is not None else person_created,
-                event_link='https://example.com/'
-            )
-
-def prev_month(d):
-    first = d.replace(day=1)
-    prev_month = first - timedelta(days=1)
-    month = 'month=' + str(prev_month.year) + '-' + str(prev_month.month)
-    return month
-
-def next_month(d):
-    days_in_month = calendar.monthrange(d.year, d.month)[1]
-    last = d.replace(day=days_in_month)
-    next_month = last + timedelta(days=1)
-    month = 'month=' + str(next_month.year) + '-' + str(next_month.month)
-    return month
-
-def get_date(req_day):
-    if req_day:
-        year, month = (int(x) for x in req_day.split('-'))
-        return date(year, month, day=1)
-    return datetime.today()
