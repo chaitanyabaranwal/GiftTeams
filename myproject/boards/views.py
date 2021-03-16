@@ -17,7 +17,7 @@ from .utils import *
 @login_required
 def home(request):
     hr_person = get_hr_person(request)
-    events = BirthdayEvent.objects.filter(person__team__hr_person=hr_person).order_by('person__birthday')
+    events = BirthdayEvent.objects.filter(person__team__hr_person=hr_person).order_by('date')
     return render(request, 'birthdaytable.html', {'events': events})
 
 # View for user signup

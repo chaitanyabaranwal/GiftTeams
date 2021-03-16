@@ -13,7 +13,7 @@ class Calendar(HTMLCalendar):
 	# formats a day as a td
 	# filter events by day
 	def formatday(self, day, events):
-			events_per_day = events.filter(person__birthday__day=day)
+			events_per_day = events.filter(date__day=day)
 			d = ''
 			for event in events_per_day:
 					d += f"<li><a href='{event.event_link}'>{event.person.name}'s birthday</li></a>"
@@ -32,7 +32,7 @@ class Calendar(HTMLCalendar):
 	# formats a month as a table
 	# filter events by year and month
 	def formatmonth(self, withyear=True):
-			events = BirthdayEvent.objects.filter(person__birthday__year=self.year, person__birthday__month=self.month)
+			events = BirthdayEvent.objects.filter(date__month=self.month)
 
 			cal = f'<table border="0" cellpadding="0" cellspacing="0" class="calendar">\n'
 			cal += f'{self.formatmonthname(self.year, self.month, withyear=withyear)}\n'
@@ -62,7 +62,7 @@ def handle_excel_upload(request, f):
         team = row['Team']
         email = row['Email']
         phone = row['Phone']
-        birthday = row['Birthday']
+        birthday = datetime.fromisoformat(row['Birthday'])
 
         # Create team if it does not exist
         team_existing, team_created = Team.objects.get_or_create(
@@ -81,11 +81,7 @@ def handle_excel_upload(request, f):
                 is_support_person=True,
                 team=team_obj,
             )
-            # TODO: Fix event link
-            # BirthdayEvent.objects.get_or_create(
-            #     person=person_existing if person_existing is not None else person_created,
-            #     event_link='https://example.com/'
-            # )
+            create_birthday(person_existing if person_existing is not None else person_created)
         # Corporate team member
         else:
             person_existing, person_created = Person.objects.get_or_create(
@@ -96,11 +92,7 @@ def handle_excel_upload(request, f):
                 is_support_person=False,
                 team=team_obj,
             )
-            # TODO: Fix event link
-            # BirthdayEvent.objects.get_or_create(
-            #     person=person_existing if person_existing is not None else person_created,
-            #     event_link='https://example.com/'
-            # )
+            create_birthday(person_existing if person_existing is not None else person_created)
 
 def prev_month(d, today):
     first = d.replace(day=1)
@@ -126,3 +118,25 @@ def get_date(req_day):
         year, month = (int(x) for x in req_day.split('-'))
         return date(year, month, day=1)
     return datetime.today()
+
+# Function to create birthday event for person
+def create_birthday(person):
+    # Get current year
+    now = datetime.now()
+    cur_year = now.year
+
+    birthday = person.birthday
+    cur_year_birthday = datetime(cur_year, birthday.month, birthday.day)
+    # If already passed, create next year's event
+    if cur_year_birthday < now:
+        event_date = datetime(cur_year + 1, birthday.month, birthday.day)
+    # Else create future event
+    else:
+        event_date = datetime(cur_year, birthday.month, birthday.day)
+    # Get or create the event object
+    # TODO: Fix link here
+    BirthdayEvent.objects.get_or_create(
+        person=person,
+        date=event_date,
+        event_link='https://example.com'
+    )

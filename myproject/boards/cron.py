@@ -1,4 +1,5 @@
 from .models import BirthdayEvent, Person
+from .utils import create_birthday
 
 from datetime import datetime, timedelta, date
 
@@ -10,7 +11,7 @@ def remove_old_birthdays():
 
 # Function to add all the birthday events from now to next year
 def add_new_birthdays():
+    # Iterate through all birthdays and create birthday events in the next year
     persons = Person.objects.all()
-    print(map(lambda x: x.birthday, persons))
-
-add_new_birthdays()
+    for person in persons:
+        create_birthday(person)
