@@ -20,6 +20,10 @@
   padding: 20px 0px 0px 5px;
 }
 
+.calendar tr:nth-child(even) {
+  background: rgba(116, 216, 208, 1);
+}
+
 .month {
   font-size: 25px;
 }
@@ -54,4 +58,28 @@ a {
 
 .clearfix {
   margin: 15px;
+}
+
+td ul {
+  padding: 0px;
+}
+
+.calendar tr:nth-child(even)>td ul li {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  background-color: white;
+  box-shadow: 0px 0px 12px 1px rgb(0 0 0 / 20%);
+}
+
+.calendar tr:nth-child(odd)>td ul li {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+  background-color:rgba(116, 216, 208, 1);
+  box-shadow: 0px 0px 12px 1px rgb(0 0 0 / 20%);
+}
+
+td ul li a {
+  color: blue;
 }
