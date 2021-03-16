@@ -9,7 +9,7 @@ class HRPerson(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class Team(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     hr_person = models.ForeignKey(to=HRPerson, on_delete=models.CASCADE)
 
     def __str__(self):
