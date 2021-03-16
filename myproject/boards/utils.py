@@ -62,7 +62,7 @@ def handle_excel_upload(request, f):
         team = row['Team']
         email = row['Email']
         phone = row['Phone']
-        birthday = datetime.fromisoformat(row['Birthday'])
+        birthday = datetime.strptime(row['Birthday'], '%d/%m/%Y')
 
         # Create team if it does not exist
         team_existing, team_created = Team.objects.get_or_create(
