@@ -31,7 +31,7 @@ class Command(BaseCommand):
         # print(options)
         ff_options = Options()
         ff_options.add_argument('-headless')
-        browser = webdriver.Firefox(options=ff_options)
+        browser = webdriver.Firefox()
         self.browser = browser
 
         # login should be done

@@ -93,16 +93,16 @@ class Command(BaseCommand):
         )
 
     def invite_all(self, birthday_person, birthday_link, friends):
-        invitation = self.create_invitation(birthday_person, birthday_link)
         for friend in friends:
+            invitation = self.create_invitation(birthday_person, birthday_link, friend)
             if friend.is_support_person:
                 self.send_sms(invitation, friend)
             else:
                 self.send_email(invitation, friend)
 
     def remind_all(self, birthday_person, birthday_link, friends):
-        reminder = self.create_reminder(birthday_person, birthday_link)
         for friend in friends:
+            reminder = self.create_reminder(birthday_person, birthday_link, friend)
             if friend.is_support_person:
                 self.send_sms(reminder, friend)
             else:
@@ -115,24 +115,37 @@ class Command(BaseCommand):
         else:
             self.send_email(celebration, person)
 
-    def create_invitation(self, birthday_person, birthday_link):
+    def create_invitation(self, birthday_person, birthday_link, person):
         return {
-            "title": f"{birthday_person}'s birthday",
-            "content": f"{birthday_person} birthday liao give money pls thx {birthday_link}",
+            "title": f"Invitation for {birthday_person}'s birthday",
+            "content": (
+                f"Hey {person.name},\n"
+                + f"It's {birthday_person.name}'s birthday in {INVITE_DAYS_BEFORE} days time!"
+                + f"{birthday_person.name} is from the {birthday_person.team} team and this is the link to the Gift-It-Forward page: {birthday_link}.\n"
+                + f"Warm regards,"
+                + f"Company HR"
+            ),
         }
 
-    def create_reminder(self, birthday_person, birthday_link):
+    def create_reminder(self, birthday_person, birthday_link, person):
         return {
-            "title": f"Last Reminder: {birthday_person}'s birthday",
-            "content": f"{birthday_person} birthday tmr give money pls thx {birthday_link}",
+            "title": f"Reminder for {birthday_person}'s birthday",
+            "content": (
+                f"Hey {person.name},\n"
+                + f"It's {birthday_person.name}'s birthday in {REMINDER_DAYS_BEFORE} days time!"
+                + f"{birthday_person.name} is from the {birthday_person.team} team and this is the link to the Gift-It-Forward page: {birthday_link}.\n"
+                + f"Warm regards,"
+                + f"Company HR"
+            ),
         }
 
     def create_celebration(self, birthday_person, event_link, age):
         return {
             "title": f"Happy Birthday {birthday_person}!",
             "content": (
-                "Happy {ordinal(age)} birthday!"
-                + "Check out the collective gift by your colleagues here!"
+                f"Hey {birthday_person.name},\n"
+                + f"Thank you for your contributions to the company and we would like to wish you a Happy {ordinal(age)} birthday!"
+                + "Please click on this link to claim your birthday gift!"
                 + event_link
             ),
         }
