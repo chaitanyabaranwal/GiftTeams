@@ -40,9 +40,9 @@ class Command(BaseCommand):
         birthday_date = datetime.date.today() + datetime.timedelta(
             days=INVITE_DAYS_BEFORE
         )
-        birthday_events = BirthdayEvent.objects.filter(date__day=birthday_date.day).filter(
-            date__month=birthday_date.month
-        )
+        birthday_events = BirthdayEvent.objects.filter(
+            date__day=birthday_date.day
+        ).filter(date__month=birthday_date.month)
         for event in birthday_events:
             friends = self.get_friends(event.person)
             assert event.person not in friends
@@ -56,9 +56,9 @@ class Command(BaseCommand):
         birthday_date = datetime.date.today() + datetime.timedelta(
             days=REMINDER_DAYS_BEFORE
         )
-        birthday_events = BirthdayEvent.objects.filter(date__day=birthday_date.day).filter(
-            date__month=birthday_date.month
-        )
+        birthday_events = BirthdayEvent.objects.filter(
+            date__day=birthday_date.day
+        ).filter(date__month=birthday_date.month)
         for event in birthday_events:
             friends = self.get_friends(event.person)
             assert event.person not in friends
@@ -77,6 +77,7 @@ class Command(BaseCommand):
     # HELPER FUNCTIONS #
     ####################
     def send_sms(self, invitation, friend):
+        print(f"sending sms to {friend.phone}")
         self.sms_client.send_message(
             {
                 "from": SMS_CLIENT_HOST,
@@ -86,6 +87,7 @@ class Command(BaseCommand):
         )
 
     def send_email(self, invitation, friend):
+        print(f"sending email to {friend.email}")
         send_mail(
             invitation["title"], invitation["content"], HOST_EMAIL_ADDR, [friend.email]
         )
