@@ -29,7 +29,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # print(options)
-        browser = webdriver.Firefox()
+        ff_options = Options()
+        ff_options.add_argument('-headless')
+        browser = webdriver.Firefox(options=ff_options)
         self.browser = browser
 
         # login should be done
@@ -44,10 +46,12 @@ class Command(BaseCommand):
         close_button = browser.find_element(By.CLASS_NAME, 'close')
         close_button.click()
         continue_button.click()
+        sleep(1)
 
         self.fill_in_details(browser, options['name'], options['date'])
 
         continue_button.click()
+        sleep(1)
         event_info = browser.find_element(By.ID, 'p_lt_ctl05_pageplaceholder_p_lt_ctl01_CreateEvent_TInvitationMessage')
         event_info.send_keys('Please feel free to donate!')
         
@@ -70,5 +74,10 @@ class Command(BaseCommand):
         confirm_button.click()
 
         url = "https://www.gift-it-forward.com" +  browser.current_url.split("epage=")[1]
+
+        browser.close()
+        browser.quit()
+
         print(url)
+        return url
         
