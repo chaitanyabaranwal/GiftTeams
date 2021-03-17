@@ -104,8 +104,7 @@ def create_person(request):
         if form.is_valid():
             person = form.save(commit=False)
             person.save()
-            # TODO: Update link here
-            # BirthdayEvent.objects.create(person=person, event_link='https://example.com')
+            create_birthday(person)
             return redirect('view_team', person.team.id)
     else:
         form = PersonForm()

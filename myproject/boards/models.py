@@ -9,7 +9,7 @@ class HRPerson(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class Team(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100)
     hr_person = models.ForeignKey(to=HRPerson, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -22,6 +22,9 @@ class Person(models.Model):
     phone = models.IntegerField(default=12345678)
     is_support_person = models.BooleanField(default=False)
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.name}({self.team.name})'
 
 class BirthdayEvent(models.Model):
     person = models.ForeignKey(to=Person, on_delete=models.CASCADE)

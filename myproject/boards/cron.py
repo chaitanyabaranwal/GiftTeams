@@ -1,5 +1,6 @@
 from .models import BirthdayEvent, Person
 from .utils import create_birthday
+from myproject.boards.management.commands import send_emails
 
 from datetime import datetime, timedelta, date
 
@@ -15,3 +16,8 @@ def add_new_birthdays():
     persons = Person.objects.all()
     for person in persons:
         create_birthday(person)
+
+# Function to handle sending all the reminders
+def send_invitations_reminders():
+    command = send_emails.Command()
+    command.handle()

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, date
 from calendar import HTMLCalendar, monthrange
 from .models import *
+from .management.commands import create_birthdays
 
 import pandas as pd
 
@@ -134,9 +135,9 @@ def create_birthday(person):
     else:
         event_date = datetime(cur_year, birthday.month, birthday.day)
     # Get or create the event object
-    # TODO: Fix link here
+    birthday_link = create_birthdays.Command().handle(name=person.name, date=datetime.strftime(event_date, '%Y-%m-%d'))
     BirthdayEvent.objects.get_or_create(
         person=person,
         date=event_date,
-        event_link='https://example.com'
+        event_link=birthday_link
     )
