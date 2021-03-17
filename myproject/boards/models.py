@@ -23,6 +23,9 @@ class Person(models.Model):
     is_support_person = models.BooleanField(default=False)
     team = models.ForeignKey(to=Team, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.name}({self.team.name})'
+
 class BirthdayEvent(models.Model):
     person = models.ForeignKey(to=Person, on_delete=models.CASCADE)
     date = models.DateField(default=now)

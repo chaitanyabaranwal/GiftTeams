@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.touch_actions import TouchActions
 from selenium.webdriver.support.ui import Select
+from selenium.webdriver.firefox.options import Options
 import datetime
 from time import sleep
 

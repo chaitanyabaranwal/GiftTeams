@@ -6,7 +6,7 @@ from myproject.settings import NEXMO_CLIENT_KEY, NEXMO_CLIENT_SECRET, SMS_CLIENT
 import datetime
 import nexmo
 
-INVITE_DAYS_BEFORE = 7
+INVITE_DAYS_BEFORE = 14
 REMINDER_DAYS_BEFORE = 7
 COUNTRY_CODE = "65"
 
@@ -40,14 +40,13 @@ class Command(BaseCommand):
         birthday_date = datetime.date.today() + datetime.timedelta(
             days=INVITE_DAYS_BEFORE
         )
-        birthday_people = Person.objects.filter(birthday__day=birthday_date.day).filter(
-            birthday__month=birthday_date.month
+        birthday_events = BirthdayEvent.objects.filter(date__day=birthday_date.day).filter(
+            date__month=birthday_date.month
         )
-        for person in birthday_people:
-            friends = get_friends(person)
-            event = BirthdayEvent.objects.get(person=person)
-            assert person not in friends
-            self.invite_all(person, event.event_link, friends)
+        for event in birthday_events:
+            friends = self.get_friends(event.person)
+            assert event.person not in friends
+            self.invite_all(event.person, event.event_link, friends)
 
     def handle_reminders(self):
         """
@@ -57,24 +56,22 @@ class Command(BaseCommand):
         birthday_date = datetime.date.today() + datetime.timedelta(
             days=REMINDER_DAYS_BEFORE
         )
-        birthday_people = Person.objects.filter(birthday__day=birthday_date.day).filter(
-            birthday__month=birthday_date.month
+        birthday_events = BirthdayEvent.objects.filter(date__day=birthday_date.day).filter(
+            date__month=birthday_date.month
         )
-        for person in birthday_people:
-            friends = get_friends(person)
-            event = BirthdayEvent.objects.get(person=person)
-            assert person not in friends
-            self.remind_all(person, event.event_link, friends)
+        for event in birthday_events:
+            friends = self.get_friends(event.person)
+            assert event.person not in friends
+            self.remind_all(event.person, event.event_link, friends)
 
     def handle_on_birthday(self):
-        today = datetime.date.today() + datetime.timedelta(days=REMINDER_DAYS_BEFORE)
-        birthday_people = Person.objects.filter(birthday__day=today.day).filter(
-            birthday__month=today.month
+        today = datetime.date.today()
+        birthday_events = BirthdayEvent.objects.filter(date__day=today.day).filter(
+            date__month=today.month
         )
-        for person in birthday_people:
-            event = BirthdayEvent.objects.get(person=person)
-            age = today.year - person.birthday.year
-            self.celebrate(person, event, age)
+        for event in birthday_events:
+            age = today.year - event.person.birthday.year
+            self.celebrate(event.person, event, age)
 
     ####################
     # HELPER FUNCTIONS #
@@ -96,7 +93,7 @@ class Command(BaseCommand):
     def invite_all(self, birthday_person, birthday_link, friends):
         invitation = self.create_invitation(birthday_person, birthday_link)
         for friend in friends:
-            if friend.is_support_staff:
+            if friend.is_support_person:
                 self.send_sms(invitation, friend)
             else:
                 self.send_email(invitation, friend)
@@ -104,14 +101,14 @@ class Command(BaseCommand):
     def remind_all(self, birthday_person, birthday_link, friends):
         reminder = self.create_reminder(birthday_person, birthday_link)
         for friend in friends:
-            if friend.is_support_staff:
+            if friend.is_support_person:
                 self.send_sms(reminder, friend)
             else:
                 self.send_email(reminder, friend)
 
     def celebrate(self, person, event, age):
         celebration = self.create_celebration(person, event.event_link, age)
-        if person.is_support_staff:
+        if person.is_support_person:
             self.send_sms(celebration, person)
         else:
             self.send_email(celebration, person)

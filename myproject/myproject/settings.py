@@ -156,4 +156,7 @@ EMAIL_USE_TLS = True
 SMS_CLIENT_HOST = "Vonage APIs"
 
 # Cron jobs
-CRONJOBS = [("* * * * *", "boards.cron.print_test")]
+CRONJOBS = [
+    ('0 0 * * *', 'boards.cron.remove_old_birthdays'),
+    ('0 5 * * *', 'boards.cron.add_new_birthdays')
+]
